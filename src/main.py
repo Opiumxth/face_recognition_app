@@ -34,7 +34,36 @@ def menu():
             break
         else:
             print("Esta opción no existe, inténtalo de nuevo.")
+            
+    
+def agregar_alumno_menu():
+    while True:
+        print("\n--- AGREGAR ALUMNO ---")
+        print("2.1 Generar qr y capturar rostros con la cámara")
+        print("2.2 Generar qr y capturar rostros desde un video pregrabado")
+        print("0. Volver al menú principal")
+        opcion = input("Selecciona una opción: ")
+        
+        codigo = input("Ingrese el código del estudiante: ")
+        nombre = input("Ingrese el nombre del estudiante: ")
+        carrera = input("Ingrese la carrera del estudiante: ")
+        from generar_qr import agregar_alumno
 
+        if opcion == "2.1":
+            agregar_alumno(codigo, nombre, carrera)
+            print("Mantenga 'p' para empezar a capturar rostros y 'q' para salir de la ventana de video")
+            grabar_modelo(f"face_recognition_app/faces/{codigo}", codigo)
+            
+        elif opcion == "2.2":
+            agregar_alumno(codigo, nombre, carrera)
+            video_path = input("Ingrese la ruta del video: ")
+            extraer_caras(video_path, f"face_recognition_app/faces/{codigo}", codigo)
+            
+        elif opcion == "0":
+            break
+        else:
+            print("Opción no válida. Intenta de nuevo.")
+    
 def panel_administracion():
     while True:
         print("\n--- PANEL DE ADMINISTRACIÓN ---")

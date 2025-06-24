@@ -20,7 +20,7 @@ def generar_qr(qr_file, codigo):
     img.save(f"{qr_file}/qr_{codigo}.png")
     print(f"QR code generado y guardado como qr_{codigo}.png en {qr_file}")
 
-def guardar_datos_en_csv(csv_file, codigo, nombre, carrera):
+def guardar_datos(csv_file, codigo, nombre, carrera):
 
     file_exists = os.path.isfile(csv_file)
     file_is_empty = not file_exists or os.path.getsize(csv_file) == 0
@@ -39,13 +39,9 @@ def guardar_datos_en_csv(csv_file, codigo, nombre, carrera):
         })
         print("Datos del estudiante guardados.")
 
-if __name__ == '__main__':
-    qr_file = "C:/Users/USUARIO/Desktop/qrs"  
-    csv_file = "C:/Users/USUARIO/Desktop/Repo_id/face_recognition_app/alumnos.csv"
+def agregar_alumno(codigo,nombre,carrera):
+    qr_file = "QRs"
+    csv_file = "face_recognition_app/alumnos.csv"
 
-    codigo = int(input("Ingrese el código del estudiante: "))
-    nombre = input("Ingrese el nombre del estudiante: ")
-    carrera = input("Ingrese la carrera del estudiante: ")
-
-    generar_qr(qr_file, codigo)  # Genera el código QR
-    guardar_datos_en_csv(csv_file, codigo, nombre, carrera)  # Guarda los datos en el CSV
+    generar_qr(qr_file, codigo)  
+    guardar_datos(csv_file, codigo, nombre, carrera) 
