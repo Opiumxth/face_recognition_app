@@ -50,14 +50,14 @@ def agregar_alumno_menu():
         from generar_qr import agregar_alumno
 
         if opcion == "2.1":
-            agregar_alumno(codigo, nombre, carrera)
             print("Mantenga 'p' para empezar a capturar rostros y 'q' para salir de la ventana de video")
             grabar_modelo(f"face_recognition_app/faces/{codigo}", codigo)
+            agregar_alumno(codigo, nombre, carrera)
             
         elif opcion == "2.2":
-            agregar_alumno(codigo, nombre, carrera)
             video_path = input("Ingrese la ruta del video: ")
             extraer_caras(video_path, f"face_recognition_app/faces/{codigo}", codigo)
+            agregar_alumno(codigo, nombre, carrera)
             
         elif opcion == "0":
             break

@@ -1,6 +1,8 @@
 import qrcode
 import os
 import csv
+import cv2
+import numpy as np
 
 def generar_qr(qr_file, codigo):
     # Crear el directorio si no existe
@@ -39,9 +41,56 @@ def guardar_datos(csv_file, codigo, nombre, carrera):
         })
         print("Datos del estudiante guardados.")
 
+def cargar_imagenes(folder, image_size=(200, 200)):
+    images = []
+    labels = []
+
+    for filename in os.listdir(folder):
+        img_path = os.path.join(folder, filename)
+        img = cv2.imread(img_path, cv2.IMREAD_GRAYSCALE)
+        if img is not None:
+            img = cv2.resize(img, image_size)
+            images.append(img)
+            # Para LBPH, podemos usar siempre la misma etiqueta (0) ya que es un modelo por persona
+            labels.append(0)  # Todos las imágenes son de la misma persona
+    
+    return images, labels
+         
+def entrenar_modelo(codigo):
+    train_folder = f"face_recognition_app/faces/{codigo}"
+
+    images, labels = cargar_imagenes(train_folder)
+
+    if not images:
+        print(f"Error: No se encontraron imágenes para entrenar en {train_folder}")
+        return
+
+    images = np.array(images)
+    labels = np.array(labels)
+
+    # Crear el reconocedor LBPH
+    model = cv2.face.LBPHFaceRecognizer_create(
+        radius=1,          # radio del patrón circular LBP (por defecto 1)
+        neighbors=8,       # número de vecinos a considerar (por defecto 8)
+        grid_x=8,          # número de celdas en horizontal (por defecto 8)
+        grid_y=8,          # número de celdas en vertical (por defecto 8)
+        threshold=100.0    # umbral para la predicción (por defecto +inf)
+    )
+    model.train(images, labels)
+
+    if not os.path.exists("face_recognition_app/models"):
+        os.makedirs("face_recognition_app/models")
+        
+    model.save(f"face_recognition_app/models/modelo_lbph_{codigo}.yml")
+
+    print(f"Modelo LBPH para el alumno {codigo} entrenado y guardado correctamente.")
+
+
 def agregar_alumno(codigo,nombre,carrera):
-    qr_file = "QRs"
+    qr_file = "qrcodes"
     csv_file = "face_recognition_app/alumnos.csv"
 
     generar_qr(qr_file, codigo)  
     guardar_datos(csv_file, codigo, nombre, carrera) 
+    entrenar_modelo(codigo) 
+    
