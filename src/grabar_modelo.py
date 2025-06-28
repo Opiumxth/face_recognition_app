@@ -10,7 +10,7 @@ def grabar_modelo (output_folder, codigo):
         ret, frame = cap.read()
         if not ret:
             break
-        
+
         if not os.path.exists(output_folder):
             os.makedirs(output_folder)
 
@@ -34,11 +34,7 @@ def grabar_modelo (output_folder, codigo):
         if cv2.waitKey(1) == ord('q'):
             break
         frame_count += 1
- 
+
     cap.release()
     cv2.destroyAllWindows()
     print(f"Se han extraído {face_count} rostros y guardado en la carpeta {output_folder}.")
-
-#codigo = input("Ingrese el código del estudiante: ")
-#if __name__ == '__main__':
-#   grabar_modelo("faces", codigo)

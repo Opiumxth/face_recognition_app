@@ -8,17 +8,20 @@ def leer_qr_camara():
                 ret, frame = cap.read()
                 if not ret:
                         break
+
                 imagen_decodeada = decode(frame)
 
-                for img in imagen_decodeada:
-                        cap.release()
-                        cv2.destroyAllWindows()
-                        return img.data.decode('utf-8')
+                if imagen_decodeada:
+                        codigo_qr = imagen_decodeada[0].data.decode('utf-8')
+                        break
 
-                cv2.imshow("Escanea tu codigo QR!", frame)
+                cv2.imshow("Escanea tu codigo QR", frame)
+
+                #Presiona la tecla esc para salir
                 if cv2.waitKey(1) == 27:
-                      break
+                        codigo_qr = None
+                        break
 
         cap.release()
         cv2.destroyAllWindows()
-        return None
+        return codigo_qr
