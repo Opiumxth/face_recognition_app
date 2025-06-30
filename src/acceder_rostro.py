@@ -24,7 +24,7 @@ def verificar_rostro(codigo):
             break
 
         #Convertir en escala de grises el fotograma
-        gray = cv2. cvtColor(frame, cv2.COLOR_BG2GRAY)
+        gray = cv2. cvtColor(frame, cv2.COLOR_BGR2GRAY)
 
         #Detecta los rostros ya con cada frame en escala de grises
         faces = face_cascade.detectMultiScale(gray, scaleFactor = 1.1, minNeighbors = 5, minSize = (100, 100))

@@ -2,7 +2,7 @@ import csv
 import os
 import shutil
 
-ALUMNOS_FILE = os.path.join(os.path.dirname(__file__), "..", "face_recognition_app/alumnos.csv")
+ALUMNOS_FILE = os.path.join(os.path.dirname(__file__), "..", "alumnos.csv")
 
 CARRERAS = {
     '0': 'Mantener carrera actual',
@@ -40,20 +40,27 @@ def borrar_alumno(codigo):
     if not encontrado:
         print("Alumno no encontrado.")
         return
-
+    
     with open(ALUMNOS_FILE, mode='w', newline='', encoding='utf-8') as file:
         fieldnames = ['codigo', 'nombre', 'carrera']
         writer = csv.DictWriter(file, fieldnames=fieldnames)
         writer.writeheader()
         writer.writerows(rows)
-        CARPETAS_ALUMNOS = os.path.join(os.path.dirname(__file__), "..", "face_recognition_app/faces")
+        CARPETAS_ALUMNOS = os.path.join(os.path.dirname(__file__), "..", "faces")
         carpeta_alumno = os.path.join(CARPETAS_ALUMNOS, codigo)
         if os.path.exists(carpeta_alumno):
             shutil.rmtree(carpeta_alumno)
             print(f"Carpeta del alumno {codigo} eliminada.")
         else:
             print(f"No se encontró carpeta para el alumno {codigo}.")
-    print(f"Alumno con código {codigo} eliminado.")
+
+        qrcodes_dir = os.path.join(os.path.dirname(__file__), "..", "qrcodes")
+        archivo_qr = os.path.join(qrcodes_dir, f"qr_{codigo}.png")
+        if os.path.exists(archivo_qr):
+            os.remove(archivo_qr)
+            print(f"QR del alumno borrado.")
+        else:
+            print(f"El archivo QR '{archivo_qr}' no existe.")
 
 def editar_informacion(codigo, nuevo_nombre=None, nueva_carrera=None):
     actualizado = False

@@ -1,27 +1,27 @@
 import cv2
-from pyzbar.pyzbar import decode
+import zxingcpp
 
 def leer_qr_camara():
-        cap = cv2.VideoCapture(0)
+    cap = cv2.VideoCapture(0)
+    codigo_qr = None  # Initialize as None (in case no QR is found)
 
-        while True:
-                ret, frame = cap.read()
-                if not ret:
-                        break
+    while True:
+        ret, frame = cap.read()
+        if not ret:
+            break
 
-                imagen_decodeada = decode(frame)
+        # Try to decode QR
+        resultados = zxingcpp.read_barcodes(frame)
+        
+        if resultados:  # If QR detected
+            codigo_qr = resultados[0].text  # Directly use .text (no need to decode)
+            break
 
-                if imagen_decodeada:
-                        codigo_qr = imagen_decodeada[0].data.decode('utf-8')
-                        break
+        cv2.imshow("Escanea tu codigo QR", frame)
+        
+        if cv2.waitKey(1) == 27:  # ESC key to exit
+            break
 
-                cv2.imshow("Escanea tu codigo QR", frame)
-
-                #Presiona la tecla esc para salir
-                if cv2.waitKey(1) == 27:
-                        codigo_qr = None
-                        break
-
-        cap.release()
-        cv2.destroyAllWindows()
-        return codigo_qr
+    cap.release()
+    cv2.destroyAllWindows()
+    return codigo_qr  # Returns None if no QR was scanned
