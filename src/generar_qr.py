@@ -93,3 +93,15 @@ def agregar_alumno(codigo,nombre,carrera):
     generar_qr(qr_file, codigo)  
     guardar_datos(csv_file, codigo, nombre, carrera) 
     entrenar_modelo(codigo) 
+    
+def verificar_codigo(codigo):
+    csv_file = "face_recognition_app/alumnos.csv"
+    if not os.path.exists(csv_file):
+        return False
+
+    with open(csv_file, mode='r', encoding='utf-8') as file:
+        reader = csv.DictReader(file)
+        for row in reader:
+            if row['codigo'] == codigo:
+                return True
+    return False

@@ -1,6 +1,6 @@
 from acceder import ejecutar_acceso
 from grabar_modelo import grabar_modelo
-from generar_qr import agregar_alumno
+from generar_qr import agregar_alumno, verificar_codigo
 from video_pregrabado import extraer_caras
 from admin import mostrar_alumnos, borrar_alumno, editar_informacion
 
@@ -8,7 +8,7 @@ def menu_opciones():
     print("\n+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~+")
     print("\tMENU PRINCIPAL")
     print("\t1. Acceder")
-    print("\t2. Agregar Alumno")
+    print("\t2. Registrar Alumno")
     print("\t3. Panel de Administracion")
     print("\t0. Salir")
     print("+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~+")
@@ -45,6 +45,12 @@ def agregar_alumno_menu():
         match opcion:
             case "2.1":
                 codigo = input("Ingrese el código del estudiante: ")
+                if not codigo.isdigit() or len(codigo) != 8:
+                    print("El código debe ser un número de 8 dígitos.")
+                    break
+                if verificar_codigo(codigo):
+                    print("El código ya está registrado. Intente con otro código.")
+                    break
                 nombre = input("Ingrese el nombre del estudiante: ")
                 carrera = input("Ingrese la carrera del estudiante: ")
                 print("Mantenga 'p' para empezar a capturar rostros y 'q' para salir de la ventana de video")
@@ -53,6 +59,12 @@ def agregar_alumno_menu():
 
             case "2.2":
                 codigo = input("Ingrese el código del estudiante: ")
+                if not codigo.isdigit() or len(codigo) != 8:
+                    print("El código debe ser un número de 8 dígitos.")
+                    break
+                if verificar_codigo(codigo):
+                    print("El código ya está registrado. Intente con otro código.")
+                    break
                 nombre = input("Ingrese el nombre del estudiante: ")
                 carrera = input("Ingrese la carrera del estudiante: ")
                 video_path = input("Ingrese la ruta del video: ")
