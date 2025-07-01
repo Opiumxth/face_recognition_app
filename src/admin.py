@@ -4,21 +4,6 @@ import shutil
 
 ALUMNOS_FILE = os.path.join(os.path.dirname(__file__), "..", "alumnos.csv")
 
-CARRERAS = {
-    '0': 'Mantener carrera actual',
-    '1': 'Ingeniería de Sistemas',
-    '2': 'Ingeniería de Software',
-    '3': 'Ciencias de la Computación'
-}
-
-def elegir_carrera():
-    print("Elige una carrera:")
-    for clave, nombre in CARRERAS.items():
-        print(f"{clave}. {nombre}")
-    opcion = input("Opción: ")
-    return CARRERAS.get(opcion, None)
-
-
 def mostrar_alumnos():
     with open(ALUMNOS_FILE, mode='r', newline='', encoding='utf-8') as file:
         reader = csv.DictReader(file)
@@ -82,7 +67,7 @@ def editar_informacion(codigo, nuevo_nombre=None, nueva_carrera=None):
                 if nuevo_nombre:
                     row['nombre'] = nuevo_nombre
                 if nueva_carrera:
-                    row['carrera'] = elegir_carrera()
+                    row['carrera'] = nueva_carrera
                 actualizado = True
             rows.append(row)
 
