@@ -5,7 +5,6 @@ def grabar_modelo (output_folder, codigo):
     cap = cv2.VideoCapture(0)
     face_cascade = cv2.CascadeClassifier(cv2.data.haarcascades + 'haarcascade_frontalface_default.xml')
     face_count = 0
-    frame_count = 0
     while True:
         ret, frame = cap.read()
         if not ret:
@@ -33,7 +32,6 @@ def grabar_modelo (output_folder, codigo):
                 face_count += 1
         if cv2.waitKey(1) == ord('q'):
             break
-        frame_count += 1
 
     cap.release()
     cv2.destroyAllWindows()
