@@ -77,8 +77,23 @@ def agregar_alumno_menu():
 
             case _:
                 print("Opción invalida. Intenta de nuevo.")
+                
+def autenticar_admin():
+    intentos = 3
+    while intentos > 0:
+        usuario = input("Usuario admin: ")
+        contraseña = input("Contraseña: ")
+        if usuario == "admin" and contraseña == "oingablinko":  # En producción usar hash
+            return True
+        intentos -= 1
+        print(f"Credenciales incorrectas. {intentos} intentos restantes.")
+    return False
+
 
 def panel_administracion():
+    if not autenticar_admin():
+        print("Acceso denegado.")
+        return
     while True:
         print("\n+~~~ PANEL DE ADMINISTRACIÓN ~~~+")
         print("3.1 Ver información de alumnos")
