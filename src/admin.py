@@ -39,8 +39,8 @@ def borrar_alumno(codigo):
         else:
             print(f"No se encontró carpeta para el alumno {codigo}.")
 
-        project_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))  # Goes up to 'face_recognition_app'
-        qrcodes_dir = os.path.join(os.path.dirname(project_dir), "qrcodes")  # Goes up one more level
+        project_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))  
+        qrcodes_dir = os.path.join(os.path.dirname(project_dir), "qrcodes")  
         archivo_qr = os.path.join(qrcodes_dir, f"qr_{codigo}.png")
 
         if os.path.exists(archivo_qr):
