@@ -54,13 +54,23 @@ def borrar_alumno(codigo):
         else:
             print(f"No se encontró carpeta para el alumno {codigo}.")
 
-        qrcodes_dir = os.path.join(os.path.dirname(__file__), "..", "qrcodes")
+        project_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))  # Goes up to 'face_recognition_app'
+        qrcodes_dir = os.path.join(os.path.dirname(project_dir), "qrcodes")  # Goes up one more level
         archivo_qr = os.path.join(qrcodes_dir, f"qr_{codigo}.png")
+
         if os.path.exists(archivo_qr):
             os.remove(archivo_qr)
-            print(f"QR del alumno borrado.")
+            print(f"QR borrado: {archivo_qr}")
         else:
-            print(f"El archivo QR '{archivo_qr}' no existe.")
+            print(f"QR no encontrado en: {archivo_qr}")
+        models_dir = os.path.join(project_dir,"models")
+        archivo_model=os.path.join(models_dir, f"modelo_lbph_{codigo}.yml")
+        if os.path.exists(archivo_model):
+            os.remove(archivo_model)
+            print(f"Modelo borrado: {archivo_model}")
+        else:
+            print(f"Modelo no encontrado en: {archivo_model}")
+    print(f"Alumno con código {codigo} eliminado.")
 
 def editar_informacion(codigo, nuevo_nombre=None, nueva_carrera=None):
     actualizado = False
